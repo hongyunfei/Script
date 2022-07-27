@@ -16,7 +16,7 @@ cfd_start_time = -0.15
 cfd_offset_time = 0.01
 
 # 基础配置勿动
-cfd_url = "https://m.jingxi.com/jxbfd/user/ExchangePrize?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=1638537224979&ptag=7155.9.47&dwType=3&dwLvl=1&ddwPaperMoney=100000&strPoolName=jxcfd2_exchange_hb_202112&strPgtimestamp=1638537224900&strPhoneID=e0d77f0905bffb0ef35ed5e108e1d96d88115814&strPgUUNum=51a7d694d329cd54fafde2fec0a1e7b2&_stk=_cfd_t%2CbizCode%2CddwPaperMoney%2CdwEnv%2CdwLvl%2CdwType%2Cptag%2Csource%2CstrPgUUNum%2CstrPgtimestamp%2CstrPhoneID%2CstrPoolName%2CstrZone&_ste=1&h5st=20211203211344980%3B6326065138416163%3B10032%3Btk01w64641ab730nt2S40l4UxJJQQ54%2BgajV7QcTgxYBAjaj8O5EqJ872fnE8a3tKwmZA63edDFotDUQGKHMvY6LhaGR%3Baa1f6072c37126eec7554dca291f49e801bba558eb12ddcedf9c4cfe38a4bc40&_=1638537224981&sceneval=2&g_login_type=1&callback=jsonpCBKO&g_ty=ls"
+cfd_url = "https://m.jingxi.com/jxbfd/user/ExchangePrize?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=1638537224979&ptag=7155.9.47&dwType=3&dwLvl=15&ddwPaperMoney=100000&strPoolName=jxcfd2_exchange_hb_202205&strPgtimestamp=1638537224900&strPhoneID=e0d77f0905bffb0ef35ed5e108e1d96d88115814&strPgUUNum=51a7d694d329cd54fafde2fec0a1e7b2&_stk=_cfd_t%2CbizCode%2CddwPaperMoney%2CdwEnv%2CdwLvl%2CdwType%2Cptag%2Csource%2CstrPgUUNum%2CstrPgtimestamp%2CstrPhoneID%2CstrPoolName%2CstrZone&_ste=1&h5st=20211203211344980%3B6326065138416163%3B10032%3Btk01w64641ab730nt2S40l4UxJJQQ54%2BgajV7QcTgxYBAjaj8O5EqJ872fnE8a3tKwmZA63edDFotDUQGKHMvY6LhaGR%3Baa1f6072c37126eec7554dca291f49e801bba558eb12ddcedf9c4cfe38a4bc40&_=1638537224981&sceneval=2&g_login_type=1&callback=jsonpCBKO&g_ty=ls"
 pattern_pin = re.compile(r'pt_pin=([\w\W]*?);')
 pattern_data = re.compile(r'\(([\w\W]*?)\)')
 
@@ -37,7 +37,7 @@ def get_cookie():
     ck_list = []
     pin = "null"
     cookie = None
-    cookies = get_envs("CFD_COOKIE")
+    cookies = get_envs("JD_COOKIE")
     for ck in cookies:
         if ck.get('status') == 0:
             ck_list.append(ck)
@@ -91,17 +91,17 @@ def cfd_qq(def_start_time):
         msg = "可能抢到了"
         put_envs(u_cookie.get('_id'), u_cookie.get('name'), u_cookie.get('value'), msg)
         disable_env(u_cookie.get('_id'))
-    elif data['iRet'] == 2016:
-        # 需要减
-        start_time = float(u_start_time) - float(cfd_offset_time)
-        put_envs(u_start_dist.get('_id'), u_start_dist.get('name'), str(start_time)[:8])
-    elif data['iRet'] == 2013:
-        # 需要加
-        start_time = float(u_start_time) + float(cfd_offset_time)
-        put_envs(u_start_dist.get('_id'), u_start_dist.get('name'), str(start_time)[:8])
-    elif data['iRet'] == 1014:
+#    elif data['iRet'] == 2016:
+#
+#        start_time = float(u_start_time) - float(cfd_offset_time)
+#       put_envs(u_start_dist.get('_id'), u_start_dist.get('name'), str(start_time)[:8])
+#  elif data['iRet'] == 2013:
+#      # 需要加
+#      start_time = float(u_start_time) + float(cfd_offset_time)
+#     put_envs(u_start_dist.get('_id'), u_start_dist.get('name'), str(start_time)[:8])
+#  elif data['iRet'] == 1014:
         # URL过期
-        pass
+#      pass
     elif data['iRet'] == 2007:
         # 财富值不够
         put_envs(u_cookie.get('_id'), u_cookie.get('name'), u_cookie.get('value'), msg)
@@ -137,7 +137,7 @@ if __name__ == '__main__':
             "Host": "m.jingxi.com",
             "Accept": "*/*",
             "Connection": "keep-alive",
-            'Cookie': u_cookie['value'],
+            'Cookie': "cid=4;"+u_cookie['value'],
             "User-Agent": UA,
             "Accept-Language": "zh-CN,zh-Hans;q=0.9",
             "Referer": "https://st.jingxi.com/",
